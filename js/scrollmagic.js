@@ -26,54 +26,58 @@ var animateHeroText = function() {
 
  var colornav = new TimelineMax()
      .add([
-     TweenMax.to(".nav-bg", 0.2, {
-             backgroundColor: "white"
+     TweenMax.to(".darkbg", 0.2, {
+             background: "white",
+             position: "fixed",
+             top: "0",
+             bottom: "auto"
          }),
-     TweenMax.to(".nav-menu a ", 0.2, {
-             color: "#666"
+     TweenMax.to(".nav-menu a", 0.2, {
+             color: "#333"
          }),
      TweenMax.to(".nav-logo", 0.2, {
-             autoAlpha: 1,force3D:true
+             autoAlpha: 1
          }),
-     TweenMax.to("nav", 0.2, {
-             className: "+=pinned"
-         }),
-     TweenMax.to(".nav-mobile", 0.2, {
-             color: "#666"
+    TweenMax.to("nav", 0.2, {
+           // className: "+=sticky ontop"
          })
  ]);
 
 
      var scene = new ScrollMagic.Scene({
          triggerHook: "onLeave",
-         offset: 520,
+         offset: 550,
          tweenChanges: true/*,
          loglevel: 3*/
      })
-     .setPin("nav")
+
      .setTween(colornav)
-     .on("start end", updateBox)
-//     .on("end", function (e) {
-//         if (e.target.parent().info("scrollDirection") == "REVERSE") { closeMenu(); }
-//     })
-//     .on("reverse", closeMenu)
      .addTo(controller);
 
-     function closeMenu() {
-         $( ".nav-menu" ).removeClass( "showmenu" );
-         $( ".nav-mobile" ).removeClass( "showmenu" );
-     };
 
-     function updateBox(e) {
-         if (e.type == "start") {
-             $("nav").addClass("pinned");
-         } else {
-             $("nav").removeClass("pinned");
-         }
-     }
+
+
+     // build tween
+     var animate2 = new TimelineMax()
+         .add([
+             TweenMax.to(".feature-logo", 0.5, {
+             autoAlpha: 1,
+             ease:Power3.easeInOut
+             })
+     ]);
+
+     // build scene
+     var scene3 = new ScrollMagic.Scene({
+             triggerElement: "#people",
+             triggerHook: "onCenter",
+             reverse: false
+         })
+         .setTween(animate2)
+         .addTo(controller);
+
+
 
 animateHeroText();
-colornav();
 
 
 

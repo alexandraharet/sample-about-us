@@ -13,9 +13,6 @@ $(document).ready(function() {
     // $(".herotext").delay(500).addClass("show");
 
 
-
-
-
 // hide nav after menu item has been clicked
 
 
@@ -60,44 +57,6 @@ if (scrollTimeOut) {
 
 
 
-// timeline animation
-
-
-var timelineToCenter = function() {
-  $(".middleLine").css({"background-position": "center"});
-  if ($(".iconContainer").length > 0 ) $(".iconContainer").remove();
-  $(".timelineEvent").each(function() {
-    $(this).append("<div class='iconContainer'> <img src='img/" + $(this).attr("id") + "-w.png' class='timelineIcon' /> </div>");
-  })
-}
-
-var timelineToLeft = function() {
-  $(".middleLine").css({"background-image": "none"});
-  $(".timelineIcon").css({bottom: "0px", top: "-30px", "margin-top": "10px"});
-}
-
-var addTimelineIcons = function(isLeft) {
-  $(".middleLine").css({
-    "visibility": "visible",
-  });
-  if (isLeft)
-  timelineToLeft();
-  else timelineToCenter();
-}
-
-if ($('.eventContent').length > 0 ) {
-  var wasLeft = ($("body").width() > 640);
-  $(window).on("load resize", function() {
-    var isLeft = $("body").width() < 640;
-    if (wasLeft != isLeft) {
-      addTimelineIcons(isLeft);
-      wasLeft = isLeft;
-    }
-  });
-};
-
-// end
-
 // back to top button fade-in and fade-out
 // hide #back-top first
 $("#back-top").hide();
@@ -123,36 +82,6 @@ $(function () {
 
 // end
 
-// Scrollmagic for animated timeline
-
-$(function() {
-
-  // Init ScrollMagic Controller
-  var scrollMagicController = new ScrollMagic.Controller();
-
-  var animateTimeline = function() {
-    var offset = - $(window).height()/4.5;
-    var addMarginTop = -150;
-    $('.timelineEvent').each(function() {
-
-      var scene = new ScrollMagic.Scene({
-        triggerElement: this,
-        offset
-      }).setClassToggle(this, "show").addTo(scrollMagicController);
-      var triggerElement = scene.triggerElement();
-      $(triggerElement).css({
-        "-webkit-overflow-scrolling": "touch"
-      }).children().css({
-        "-webkit-transform": "translateZ(0px)",
-        "-webkit-transform": "translate3d(0,0,0)"
-      });
-
-    });
-  }
-  animateTimeline();
-});
-
-// end
 
 var getDayAndYear = function() {
   var d = new Date();
@@ -162,25 +91,25 @@ var getDayAndYear = function() {
 }
 
 
+var showPerson = function() {
+  $("#persons").children("div").click(function() {
+    var description = $(".description", this).html();
+    var title = $(".title", this).html();
+    var name = $(".name", this).html();
+    var img = $("img", this).attr("src");
+    $("#person-img > img").attr("src", img);
+    $("#person-text > .title").html(title);
+    $("#person-text > .name").html(name);
+    $("#person-text > .description").html(description);
+  });
+}
+
+showPerson();
+
+
+
+
 addZoomInAndButton(".img-container");
 getDayAndYear();
-addTimelineIcons();
-
-
-
-// vertical alignment to middle using CSS, for class .center
-/*
-$(window).resize(function() {
-$(".toMiddle").each(function() {
-var wh = (($(this).parent().height()-$(this).height())/2)+'px';
-$(this).css({
-top: wh
-});
-});
-
-
-}).resize(); */
-
-
 
 })
