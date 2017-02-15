@@ -140,7 +140,7 @@ sr.reveal('.features', {duration: 300, viewFactor: 1, mobile: false});
 sr.reveal("#whatwedo-logo", {duration: 300, viewFactor: 0.5, mobile: false});
 sr.reveal('#person', { duration: 300, viewFactor: 1, mobile: false, reset: false});
 
-sr.reveal('.partner', { duration: 2000, mobile: false, reset: true}, 50);
+sr.reveal('.partner', { duration: 2000, mobile: false, reset: true}, 100);
 
 
 });
