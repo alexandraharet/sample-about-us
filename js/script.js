@@ -1,22 +1,11 @@
 $(document).ready(function() {
 
-  var addZoomInAndButton = function(myClass) {
-    $(myClass).hover(
-      function(){
-        $(this).find("img").addClass("zoom-in");
-      },
-      function(){
-        $(this).find("img").removeClass("zoom-in");
-      });
-    }
-
-    // $(".herotext").delay(500).addClass("show");
 
 
 // hide nav after menu item has been clicked
 
 
-if ($(".title-bar").css("display") !== "none") $("#top-menu").click(function(){
+if ($(".title-bar").css("display") !== "none") $("#top-menu").click(function() {
       if ($(this).css("display") == "flex") $(this).css({"display":"none"});
       });
 //end
@@ -54,11 +43,12 @@ if (scrollTimeOut) {
 }
 }, 250);
 
-
+// end
 
 
 // back to top button fade-in and fade-out
 // hide #back-top first
+
 $("#back-top").hide();
 
 // fade in #back-top
@@ -82,15 +72,6 @@ $(function () {
 
 // end
 
-
-var getDayAndYear = function() {
-  var d = new Date();
-  var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  $("#currentyear").text(d.getFullYear());
-  $("#day").text(weekday[d.getDay()]);
-}
-
-
 var showPerson = function() {
   $("#persons").children("div").click(function() {
     var description = $(".description", this).html();
@@ -101,15 +82,65 @@ var showPerson = function() {
     $("#person-text > .title").html(title);
     $("#person-text > .name").html(name);
     $("#person-text > .description").html(description);
+});
+}
+
+var changePersonTitleOnXs = function() {
+    $(".img-container").each(function() {
+        var name = $(".name", this).html();
+        var title = $(".title", this).html();
+        $(this).append('<div class="person-under show-for-small-only"><p class="name">' + name + '</p><p class="title">' + title + '</p></div>');
+    });
+}
+
+
+var overlay = function(myClass) {
+  $(myClass).mouseenter(function(){
+    var imgWidth = $(this).find('img').outerWidth();
+    var imgHeight = $(this).find('img').outerHeight();
+    $(".overlay", this).css( {"width": imgWidth, "height": imgHeight} );
+    $(this).addClass("hover");
+  })
+  // handle the mouseleave functionality
+  .mouseleave(function(){
+    $(this).removeClass("hover");
   });
 }
 
 showPerson();
+overlay(".img-container");
+changePersonTitleOnXs();
+
+var controller = new ScrollMagic.Controller();
+
+var animateHeroText = function() {
+  // Animation will be ignored and replaced by scene value in this example
+  var tween = TweenMax.to('#hero', 0.5, {
+    autoAlpha: 0,
+    y: 150,
+    scale: 0.7,
+    force3D:true
+  });
+
+  new ScrollMagic.Scene({
+    triggerElement: '#whatwedo',
+    offset: -300,
+    duration: 600
+  })
+  .setTween(tween)
+  .addTo(controller);
+};
+
+animateHeroText();
 
 
+window.sr = ScrollReveal({ reset: true });
+window.sr = ScrollReveal();
+sr.reveal('.features', {duration: 300, viewFactor: 1, mobile: false});
+sr.reveal("#whatwedo-logo", {duration: 300, viewFactor: 0.5, mobile: false});
+sr.reveal('#person', { duration: 300, viewFactor: 1, mobile: false, reset: false});
+
+sr.reveal('.partner', { duration: 2000, mobile: false, reset: true}, 50);
 
 
-addZoomInAndButton(".img-container");
-getDayAndYear();
-
-})
+});
